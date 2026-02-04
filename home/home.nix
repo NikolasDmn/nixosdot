@@ -10,6 +10,7 @@
   imports = [
     ./hyprland.nix
     ./walker.nix
+    ./tmux.nix
   ];
   home.homeDirectory = "/home/nikanel";
   home.packages = with pkgs; [

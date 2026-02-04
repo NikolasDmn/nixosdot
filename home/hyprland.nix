@@ -170,7 +170,7 @@
 
       "$mod, RETURN, exec, kitty"
       "$mod, W, killactive"
-      "$mod, B, exec, firefox"
+      "$mod, B, exec, chromium-browser"
       "$mod, SPACE, exec, walker"
       "$mod, M, exec, ~/.config/hypr/scripts/toggle-mirror.sh"
 
