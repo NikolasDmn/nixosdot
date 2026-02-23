@@ -14,7 +14,17 @@
   ];
   home.homeDirectory = "/home/nikanel";
   home.packages = with pkgs; [
+    gnucash
+    rclone
 
+    aonsoku
+    feishin
+    whatsapp-electron
+
+
+    # platformio
+    platformio-core
+    stm32cubemx
 
     htop
     neofetch
@@ -33,6 +43,7 @@
     cargo
     rustfmt
     clang-tools
+
     gcc
     gnumake
     cmake
@@ -67,8 +78,10 @@
     shellAliases = {
       ll = "ls -l";
       update = "sudo nixos-rebuild switch --flake /etc/nixos";
+      nixedit = "nvim /etc/nixos";
     };
   };
+
  programs.atuin = {
     enable = true;
     enableBashIntegration = true;   # Ctrl+R override
@@ -100,6 +113,12 @@
       clipboard_control = "write-clipboard read-clipboard write-primary read-primary";
     };
   };
+   home.file.".ssh/1p_git_signing.pub".text = ''
+ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIAtQXViBCDOhvR8Lr4dsS3Z9pNNFeewlz/KKnMsFlO
+  '';
+  home.file.".config/git/allowed_signers".text = ''
+  NikolasDmn ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPIAtQXViBCDOhvR8Lr4dsS3Z9pNNFeewlz/KKnMsFlO
+  '';
   programs.git = {
     enable = true;
     userName = "NikolasDmn";
@@ -111,14 +130,14 @@
       };
       "gpg \"ssh\"" = {
         program = "${lib.getExe' pkgs._1password-gui "op-ssh-sign"}";
+        allowedSignersFile = "${config.home.homeDirectory}/.config/git/allowed_signers";
+
       };
       commit = {
         gpgsign = true;
       };
 
-      user = {
-        signingKey = "...";
-      };
+      user.signingKey = "${config.home.homeDirectory}/.ssh/1p_git_signing.pub";
     };
   };
   programs.chromium = {
@@ -134,6 +153,7 @@
     config.lib.file.mkOutOfStoreSymlink
       "${config.home.homeDirectory}/.src/dotfiles-nvim";
 
+  
   home.stateVersion = "25.05"; # Did you read the comment?
 
 }

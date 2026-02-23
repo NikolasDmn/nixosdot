@@ -166,6 +166,10 @@
         ];
       };
       "$mod" = "SUPER";
+    bindm = [
+        "$mod, mouse:272, movewindow"
+        "$mod, mouse:273, resizewindow"
+      ];
     bind = [
 
       "$mod, RETURN, exec, kitty"
@@ -173,6 +177,7 @@
       "$mod, B, exec, chromium-browser"
       "$mod, SPACE, exec, walker"
       "$mod, M, exec, ~/.config/hypr/scripts/toggle-mirror.sh"
+      "$mod, V, togglefloating"
 
       # Workspaces on primary display
 
@@ -226,10 +231,10 @@
       "$mod, down, resizeactive, 0 20"
 
       # Volume + brightness controls
-      "$mod, equal, exec, $osdclient --output-volume raise"
-      "$mod, minus, exec, $osdclient --output-volume lower"
-      "$mod SHIFT, equal, exec, $osdclient --brightness raise"
-      "$mod SHIFT, minus, exec, $osdclient --brightness lower"
+      "$mod, equal, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+"
+      "$mod, minus, exec, wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"
+      "$mod SHIFT, equal, exec, brightnessctl s 10%+"
+      "$mod SHIFT, minus, exec, brightnessctl s 10%-"
     ];
     workspace = [
         "1,monitor:HDMI-A-1"

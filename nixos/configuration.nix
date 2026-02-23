@@ -43,6 +43,7 @@
   stylix = {
     enable = true;
     autoEnable = true;
+
     base16Scheme = {
       base00 = "262626"; # ----
       base01 = "3a3a3a"; # ---
@@ -83,6 +84,7 @@
     };
   };
   environment.etc."stylix/palette.lua".source =
+
     let
       c = config.lib.stylix.colors.withHashtag;
     in
@@ -119,6 +121,7 @@
   # Select internationalisation properties.
   i18n.defaultLocale = "en_US.UTF-8";
 
+
   i18n.extraLocaleSettings = {
     LC_ADDRESS = "nl_NL.UTF-8";
     LC_IDENTIFICATION = "nl_NL.UTF-8";
@@ -148,6 +151,15 @@
     "nix-command"
     "flakes"
   ];
+
+  services.tailscale = {
+    enable = true;
+    authKeyFile = "/run/secrets/tailscale_key";
+    useRoutingFeatures = "client";  # client or both
+    extraUpFlags = [
+      "--accept-routes"
+    ];
+  };
   /*
       hardware.opengl = {
       enable = true;
@@ -185,6 +197,7 @@
     extraGroups = [
       "networkmanager"
       "wheel"
+      "wireshark"
     ];
   };
 
@@ -200,13 +213,19 @@
     enable = true;
     polkitPolicyOwners = [ "nikanel" ];
   };
+  programs.wireshark.enable = true;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
     wget
+    wireshark
     git
+    btop
     gh
+    zip
+    unzip
     kitty
     impala
     chromium
@@ -215,7 +234,10 @@
     bluetui
     naps2
     xclip
+    dua
+    brightnessctl
   ];
+
   programs.neovim = {
     enable = true;
     defaultEditor = true; # sets EDITOR=nvim automatically
@@ -228,6 +250,8 @@
     font-awesome
 
   ];
+
+services.udev.packages = with pkgs; [ platformio-core.udev ];
   /*
       home-manager = {
                  	extraSpecialArgs = {inherit inputs;};
