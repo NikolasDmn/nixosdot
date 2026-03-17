@@ -214,16 +214,33 @@
     polkitPolicyOwners = [ "nikanel" ];
   };
   programs.wireshark.enable = true;
+  
+ nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [
+    "steam"
+    "steam-unwrapped"
+  ];
+ programs.steam = {
+  enable = true; # Master switch, already covered in installation
+  remotePlay.openFirewall = true;  # Open ports in the firewall for Steam Remote Play
+  dedicatedServer.openFirewall = true; # Open ports for Source Dedicated Server hosting
+  # Other general flags if available can be set here.
+};
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     # vim # Do not forget to add an editor to edit configuration.nix! The Nano editor is also installed by default.
+
+    jdk21
+    jdk17
+    jdk8
     wget
     wireshark
     git
     btop
     gh
+    clang-tools
+    clang
     zip
     unzip
     kitty
@@ -236,6 +253,7 @@
     xclip
     dua
     brightnessctl
+    thunar
   ];
 
   programs.neovim = {
@@ -252,6 +270,21 @@
   ];
 
 services.udev.packages = with pkgs; [ platformio-core.udev ];
+fileSystems."/mnt/vault/media" = {
+    device = "//nikanel.com/media";
+    fsType = "cifs";
+    options = [
+      "username=nikanel"
+      "password=622004"
+      "uid=1000"
+      "gid=100"
+      "file_mode=0775"
+      "dir_mode=0775"
+      "vers=3.0"
+      "x-systemd.automount"
+      "noatime"
+    ];
+  };
   /*
       home-manager = {
                  	extraSpecialArgs = {inherit inputs;};

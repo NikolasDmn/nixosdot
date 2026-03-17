@@ -1,7 +1,7 @@
 { pkgs, ... }:
 {
   programs.waybar = {
-    enable = true;
+enable = true;
     systemd.enable = true;
     settings = [
       {
@@ -141,6 +141,16 @@
       ];
     };
   };
+  programs.hyprshot = {
+    enable = true;
+    saveLocation = "$HOME/Pictures/Screenshots";
+  };
+
+  home.packages = with pkgs; [
+    satty
+    wl-clipboard
+  ];
+
 
   wayland.windowManager.hyprland = {
     enable = true;
@@ -151,6 +161,7 @@
       variables = [ "--all" ];
     };
     settings = {
+      exec-once="1password --silent";
       env = [
           "NVD_BACKEND,direct"
         "LIBVA_DRIVER_NAME,nvidia"
@@ -178,6 +189,9 @@
       "$mod, SPACE, exec, walker"
       "$mod, M, exec, ~/.config/hypr/scripts/toggle-mirror.sh"
       "$mod, V, togglefloating"
+      "$mod, F, exec, thunar"
+      "$mod SHIFT, S, exec, hyprshot -m region"
+      
 
       # Workspaces on primary display
 

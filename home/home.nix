@@ -14,6 +14,11 @@
   ];
   home.homeDirectory = "/home/nikanel";
   home.packages = with pkgs; [
+
+    obsidian
+    kid3
+    calibre
+
     gnucash
     rclone
 
@@ -42,9 +47,7 @@
     rust-analyzer
     cargo
     rustfmt
-    clang-tools
 
-    gcc
     gnumake
     cmake
     pkg-config
@@ -64,6 +67,11 @@
     vscode-langservers-extracted
 
     prettierd
+     vscode
+     discord
+
+     libreoffice-qt-fresh
+
 
     walker
 
@@ -72,16 +80,23 @@
     networkmanagerapplet
     playerctl
 
+      modrinth-app
+
+
   ];
-  programs.bash = {
+  services.nextcloud-client = {
+    enable = true;
+    startInBackground = true;
+  };
+
+ programs.bash = {
     enable = true;
     shellAliases = {
       ll = "ls -l";
-      update = "sudo nixos-rebuild switch --flake /etc/nixos";
+      nixupdate = "sudo nixos-rebuild switch --flake /etc/nixos";
       nixedit = "nvim /etc/nixos";
     };
   };
-
  programs.atuin = {
     enable = true;
     enableBashIntegration = true;   # Ctrl+R override
